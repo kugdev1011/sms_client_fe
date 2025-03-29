@@ -79,7 +79,7 @@ export default function NoviceCommunity() {
           className="w-[500px] flex items-start gap-3"
         >
           <Typography variant="h4" color="blue-gray">
-            Payment Management
+            充值
           </Typography>
           <Typography
             color="red"
@@ -101,7 +101,7 @@ export default function NoviceCommunity() {
                   height={20}
                   alt="logo"
                 />
-                TRON TRC20 USDT ADDRESS
+                TRON TRC20 USDT
               </Typography>
               <div onClick={() => copyToClipboard()}>
                 <Popover>
@@ -122,7 +122,7 @@ export default function NoviceCommunity() {
           </div>
           <div className="w-full flex flex-col items-end">
             <Typography variant="h6" color="blue-gray" className="self-start">
-              Please Input Deposit Amount
+              充值金额
             </Typography>
             <Input
               type="number"
@@ -134,7 +134,7 @@ export default function NoviceCommunity() {
           </div>
           <div className="w-full flex flex-col items-end">
             <Typography variant="h6" color="blue-gray" className="self-start">
-              Please Input Transaction ID
+              交易编号
             </Typography>
             <Textarea
               value={txID}
@@ -143,7 +143,7 @@ export default function NoviceCommunity() {
             />
           </div>
           <Button onClick={handleDeposit} className="mt-6" fullWidth>
-            Confirm and Process Payment
+            确认
           </Button>
         </Card>
       </div>

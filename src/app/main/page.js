@@ -11,8 +11,6 @@ import { useRouter } from "next/navigation";
 export default function NoviceCommunity() {
   const [phoneList, setPhoneList] = useState("");
   const [smsContent, setSmsContent] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [errorMessageShow, setErrorMessageShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const fileInputRef = useRef(null);
   const router = useRouter();
@@ -31,17 +29,15 @@ export default function NoviceCommunity() {
   };
 
   const handleSendSMS = async () => {
-    setErrorMessageShow(false);
     let checkValid = validationSendSMS(phoneList, smsContent);
     if (!checkValid.result) {
-      setErrorMessage(checkValid.message);
-      setErrorMessageShow(!checkValid.result);
+      showMessage(checkValid.message);
       return;
     }
     let result = await sendsms(phoneList.split(/\r?\n/), smsContent);
     showMessage(result.message);
     if (result.success) {
-      setTimeout(() => router.push("/main"), 2000);
+      setTimeout(() => router.push("/dashboard"), 2000);
     }
   };
 
@@ -62,7 +58,7 @@ export default function NoviceCommunity() {
 
   return (
     <div>
-      <div className="h-full justify-center items-center flex">
+      <div className="h-full py-10 justify-center items-center flex">
         <CustomAlert message={alertMessage} />
 
         <Card
@@ -71,15 +67,9 @@ export default function NoviceCommunity() {
           className="w-[500px] flex items-start gap-2"
         >
           <Typography variant="h4" color="blue-gray/10">
-            Send SMS message
+            发送短信
           </Typography>
-          <Typography
-            color="red"
-            variant="h6"
-            className={`mt-1  w-80 max-w-screen-lg sm:w-96 font-normal ${errorMessageShow ? "opacity-100" : "opacity-0"}`}
-          >
-            {errorMessage}&nbsp;
-          </Typography>
+
           <div className="w-full flex flex-col items-end gap-1">
             <div className="w-full flex justify-between">
               <Typography
@@ -87,7 +77,7 @@ export default function NoviceCommunity() {
                 color="blue-gray/10"
                 className="self-end"
               >
-                Phone Number List
+                电话号码列表
               </Typography>
               <input
                 type="file"
@@ -96,8 +86,8 @@ export default function NoviceCommunity() {
                 className="hidden"
                 onChange={handleFileChange}
               />
-              <Button onClick={handleLoadFile} className="p-2">
-                Load From File
+              <Button onClick={handleLoadFile} className="p-2 normal-case">
+                从文件加载
               </Button>
             </div>
             <textarea
@@ -113,19 +103,23 @@ export default function NoviceCommunity() {
                 color="blue-gray/10"
                 className="self-start"
               >
-                SMS Content
+                短信内容
               </Typography>
             </div>
             <textarea
               value={smsContent}
               onChange={(e) => setSmsContent(e.target.value)}
               className="w-full h-36 overflow-auto outline-none rounded-md resize-none p-3 bg-gray-800"
-              maxLength={700}
-              placeholder="SMS content length must be less than 700"
+              maxLength={70}
+              placeholder="短信内容长度必须小于70。"
             />
           </div>
-          <Button onClick={handleSendSMS} className="mt-6" fullWidth>
-            Send
+          <Button
+            onClick={handleSendSMS}
+            className="mt-6 normal-case"
+            fullWidth
+          >
+            发送
           </Button>
         </Card>
       </div>

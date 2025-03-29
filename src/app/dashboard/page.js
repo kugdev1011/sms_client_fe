@@ -35,15 +35,15 @@ export default function Home() {
   return (
     <div>
       <div className="content">
-        <div className="w-full flex flex-col">
+        <div className="w-[70%] flex flex-col justify-center items-center mx-auto">
           <CustomAlert message={alertMessage} />
 
           <div className="w-full grid grid-cols-5 gap-4 p-5 text-[#CCC] font-bold border-b text-hoverblack border-b-hoverblack">
             <p>No</p>
-            <p>Phone Numbers</p>
-            <p>SMS content</p>
-            <p>Success Count</p>
-            <p>Time</p>
+            <p>电话号码计数</p>
+            <p>短信内容</p>
+            <p>成功计数</p>
+            <p>时间</p>
           </div>
           {smsHistoryData?.map((data, index) => (
             <div
@@ -52,7 +52,7 @@ export default function Home() {
               className="w-full grid grid-cols-5 items-center gap-4 p-5 text-[#777] border-b border-b-mainblack hover:bg-mainblack"
             >
               <p>{index + 1}</p>
-              <p>{data.phone.slice(0, 10)}...</p>
+              <p>{data.phone.length}</p>
               <p className="w-full break-words words-break break-all">
                 {data.content.slice(0, 10)}...
               </p>
