@@ -7,7 +7,6 @@ import { validationSendSMS } from "../signup/helper";
 import { sendsms } from "../api/sms";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import Leftbar from "@/components/Header";
 
 export default function NoviceCommunity() {
   const [phoneList, setPhoneList] = useState("");
@@ -63,78 +62,72 @@ export default function NoviceCommunity() {
 
   return (
     <div>
-      <Leftbar />
-      <div className="content ml-64 h-screen justify-center items-center flex">
+      <div className="h-full justify-center items-center flex">
         <CustomAlert message={alertMessage} />
-        <div className="brands container mx-auto my-2 overflow-hidden  drop-shadow-md">
-          <div className="w-full flex items-center justify-center mt-9">
-            <div className="flex flex-col items-center">
-              <Card
-                color="transparent"
-                shadow={false}
-                className="w-[500px] flex items-start gap-2"
+
+        <Card
+          color="transparent"
+          shadow={false}
+          className="w-[500px] flex items-start gap-2"
+        >
+          <Typography variant="h4" color="blue-gray/10">
+            Send SMS message
+          </Typography>
+          <Typography
+            color="red"
+            variant="h6"
+            className={`mt-1  w-80 max-w-screen-lg sm:w-96 font-normal ${errorMessageShow ? "opacity-100" : "opacity-0"}`}
+          >
+            {errorMessage}&nbsp;
+          </Typography>
+          <div className="w-full flex flex-col items-end gap-1">
+            <div className="w-full flex justify-between">
+              <Typography
+                variant="h6"
+                color="blue-gray/10"
+                className="self-end"
               >
-                <Typography variant="h4" color="blue-gray/10">
-                  Send SMS message
-                </Typography>
-                <Typography
-                  color="red"
-                  variant="h6"
-                  className={`mt-1  w-80 max-w-screen-lg sm:w-96 font-normal ${errorMessageShow ? "opacity-100" : "opacity-0"}`}
-                >
-                  {errorMessage}&nbsp;
-                </Typography>
-                <div className="w-full flex flex-col items-end gap-1">
-                  <div className="w-full flex justify-between">
-                    <Typography
-                      variant="h6"
-                      color="blue-gray/10"
-                      className="self-end"
-                    >
-                      Phone Number List
-                    </Typography>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      accept=".txt, .csv"
-                      className="hidden"
-                      onChange={handleFileChange}
-                    />
-                    <Button onClick={handleLoadFile} className="p-2">
-                      Load From File
-                    </Button>
-                  </div>
-                  <textarea
-                    value={phoneList}
-                    onChange={(e) => setPhoneList(e.target.value)}
-                    className="w-full h-48 overflow-auto outline-none rounded-md p-3 resize-none bg-gray-800"
-                  />
-                </div>
-                <div className="w-full flex flex-col items-end gap-1">
-                  <div className="w-full flex justify-between">
-                    <Typography
-                      variant="h6"
-                      color="blue-gray/10"
-                      className="self-start"
-                    >
-                      SMS Content
-                    </Typography>
-                  </div>
-                  <textarea
-                    value={smsContent}
-                    onChange={(e) => setSmsContent(e.target.value)}
-                    className="w-full h-36 overflow-auto outline-none rounded-md resize-none p-3 bg-gray-800"
-                    maxLength={700}
-                    placeholder="SMS content length must be less than 700"
-                  />
-                </div>
-                <Button onClick={handleSendSMS} className="mt-6" fullWidth>
-                  Send
-                </Button>
-              </Card>
+                Phone Number List
+              </Typography>
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept=".txt, .csv"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <Button onClick={handleLoadFile} className="p-2">
+                Load From File
+              </Button>
             </div>
+            <textarea
+              value={phoneList}
+              onChange={(e) => setPhoneList(e.target.value)}
+              className="w-full h-48 overflow-auto outline-none rounded-md p-3 resize-none bg-gray-800"
+            />
           </div>
-        </div>
+          <div className="w-full flex flex-col items-end gap-1">
+            <div className="w-full flex justify-between">
+              <Typography
+                variant="h6"
+                color="blue-gray/10"
+                className="self-start"
+              >
+                SMS Content
+              </Typography>
+            </div>
+            <textarea
+              value={smsContent}
+              onChange={(e) => setSmsContent(e.target.value)}
+              className="w-full h-36 overflow-auto outline-none rounded-md resize-none p-3 bg-gray-800"
+              maxLength={700}
+              placeholder="SMS content length must be less than 700"
+            />
+          </div>
+          <Button onClick={handleSendSMS} className="mt-6" fullWidth>
+            Send
+          </Button>
+        </Card>
       </div>
     </div>
   );

@@ -5,7 +5,6 @@ import { useState } from "react";
 import AllPaymentPanel from "./allPanel";
 import CheckedPaymentPanel from "./checkedPanel";
 import UnCheckedPaymentPanel from "./unCheckedPanel";
-import Leftbar from "@/components/Header";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
@@ -13,8 +12,7 @@ export default function Home() {
   const displayOption = ["All", "Verified", "UnVerified"];
   return (
     <div>
-      <Leftbar />
-      <div className="content ml-64">
+      <div>
         <div className="brands container mx-auto my-2 overflow-hidden  drop-shadow-md">
           <div className="w-full flex items-center justify-center mt-9">
             <div className="flex flex-col w-full items-center gap-6">

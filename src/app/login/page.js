@@ -82,7 +82,7 @@ export default function Home() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <Button className="mt-6" fullWidth>
+                <Button onClick={handleSignin} className="mt-6" fullWidth>
                   登陆
                 </Button>
               </form>

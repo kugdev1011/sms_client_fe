@@ -31,14 +31,12 @@ export default function RootLayout({ children }) {
       <head>
         <title>SMS</title>
       </head>
-      <body>
+      <body className="bg-gray-200">
         <ReduxProvider>
           <ScrollProvider>
-            <div>
-              <div className="absolute">
-                <Header />
-              </div>
-              {children}
+            <div className="flex flex-col">
+              <Header />
+              <div className="flex-1">{children}</div>
               <ScrollToTopButton />
             </div>
           </ScrollProvider>
