@@ -7,7 +7,7 @@ import { validationSendSMS } from "../signup/helper";
 import { sendsms } from "../api/sms";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import Leftbar from "@/components/Leftbar";
+import Leftbar from "@/components/Header";
 
 export default function NoviceCommunity() {
   const [phoneList, setPhoneList] = useState("");

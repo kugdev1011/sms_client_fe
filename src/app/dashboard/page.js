@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CustomAlert from "../components/customAlert";
 import { getAllSms } from "../api/sms";
 import { DialogWithForm } from "../components/customDialog";
-import Leftbar from "@/components/Leftbar";
+import Leftbar from "@/components/Header";
 
 export default function Home() {
   const [smsHistoryData, setSmsHistoryData] = useState([]);

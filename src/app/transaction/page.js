@@ -5,7 +5,7 @@ import { useState } from "react";
 import AllPaymentPanel from "./allPanel";
 import CheckedPaymentPanel from "./checkedPanel";
 import UnCheckedPaymentPanel from "./unCheckedPanel";
-import Leftbar from "@/components/Leftbar";
+import Leftbar from "@/components/Header";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);

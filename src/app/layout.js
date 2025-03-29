@@ -10,6 +10,7 @@ import ScrollToTopButton from "./components/scrollToTop";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { eventBus } from "../../utils/axios";
+import Header from "@/components/Header";
 
 export default function RootLayout({ children }) {
   const router = useRouter();
@@ -34,6 +35,9 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <ScrollProvider>
             <div>
+              <div className="absolute">
+                <Header />
+              </div>
               {children}
               <ScrollToTopButton />
             </div>

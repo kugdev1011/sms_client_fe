@@ -2,20 +2,16 @@
 
 import { Button, Card, Typography, Input } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { validationSignIn } from "../signup/helper";
+import { useEffect, useState } from "react";
+import { validationSignIn } from "./helper";
 import CustomAlert from "../components/customAlert";
 import { signin } from "../api/user";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/authSlice";
 
 export default function Home() {
-  const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [errorMessageShow, setErrorMessageShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   const dispatch = useDispatch();
@@ -26,11 +22,9 @@ export default function Home() {
   };
 
   const handleSignin = async () => {
-    setErrorMessageShow(false);
     let checkValid = validationSignIn(email, password);
     if (!checkValid.result) {
-      setErrorMessage(checkValid.message);
-      setErrorMessageShow(!checkValid.result);
+      showMessage(checkValid.message);
       return;
     }
     let result = await signin(email, password);
@@ -39,62 +33,62 @@ export default function Home() {
       let token = result.token;
       let user = result.user;
       dispatch(login({ token, user }));
-      console.log("result", result);
       setTimeout(() => router.push("/main"), 2000);
     }
   };
+  const { isAuth } = useSelector((state) => state.auth);
+  const router = useRouter();
+  useEffect(() => {
+    if (isAuth) {
+      router.push("/main");
+    }
+  }, []);
 
   return (
-    <div
-      className="content bg-cover bg-center h-screen"
-      style={{ backgroundImage: "url(./bg_sms.jpg)" }}
-    >
-      <CustomAlert message={alertMessage} />
-      <div className="flex items-center justify-center h-screen">
-        <Card className="p-4 bg-white" shadow={true}>
-          <p className="text-4xl text-gray-900 font-medium justify-center flex">
-            Sign In
-          </p>
-          <form className="w-80 max-w-screen-lg sm:w-96 py-10">
-            <div className="mb-1 flex flex-col gap-6">
-              <div className="flex flex-row items-center justify-self-center gap-4">
-                <Input
-                  value={email}
-                  variant="standard"
-                  label="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+    <div className="flex flex-row bg-[url('/bg.jpg')] bg-cover bg-center h-screen ml-0">
+      <div className="w-[60%] flex items-center justify-center ">
+        <img src="/gold_logo.png" className="w-full" />
+      </div>
+      <div className="content  w-[30%]">
+        <CustomAlert message={alertMessage} />
+        <div className="h-screen flex items-center justify-start">
+          <Card
+            shadow={false}
+            color="transparent"
+            className="p-4 text-gray-500"
+          >
+            <div>
+              <div className="flex items-self-center justify-self-center">
+                <Typography className="font-medium items-self-center text-4xl">
+                  登陆(管理面板)
+                </Typography>
               </div>
-              <div className="flex flex-row items-center gap-4">
-                <Input
-                  type="password"
-                  variant="standard"
-                  label="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
+              <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                <div className="mb-1 flex flex-col gap-6">
+                  <Input
+                    size="lg"
+                    label="电子邮件"
+                    color="white"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+
+                  <Input
+                    type="password"
+                    size="lg"
+                    label="密码"
+                    color="white"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <Button onClick={handleSignin} className="mt-6" fullWidth>
+                  登陆
+                </Button>
+              </form>
             </div>
-            {errorMessageShow ? (
-              <Typography
-                color="red"
-                variant="h6"
-                className="font-normal justify-self-end"
-              >
-                {errorMessage}&nbsp;
-              </Typography>
-            ) : (
-              <div></div>
-            )}
-            <Button
-              onClick={handleSignin}
-              className="font-medium mt-6 text-sm w-[30%] justify-self-end"
-              fullWidth
-            >
-              sign in
-            </Button>
-          </form>
-        </Card>
+          </Card>
+        </div>
       </div>
     </div>
   );

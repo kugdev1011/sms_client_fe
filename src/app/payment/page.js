@@ -18,7 +18,7 @@ import { deposit } from "../api/payment";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import Leftbar from "@/components/Leftbar";
+import Leftbar from "@/components/Header";
 
 export default function NoviceCommunity() {
   const router = useRouter();
