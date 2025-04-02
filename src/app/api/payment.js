@@ -1,12 +1,10 @@
 import axiosApi from "../../../utils/axios";
 
-export const getAllDeposit = async () => {
+export const getPayment = async () => {
   try {
-    const response = await axiosApi.get("/payment/alldeposit");
-    console.log("response:", response.data);
-    return response.data;
+    const response = await axiosApi.get("/payment");
+    return response;
   } catch (error) {
-    console.log("error:", error.response.data);
-    return error.response.data;
+    return error.response;
   }
 };

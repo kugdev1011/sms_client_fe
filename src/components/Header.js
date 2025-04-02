@@ -22,38 +22,34 @@ const Header = () => {
               <img src="/logo.png" className="w-[250px]" />
             </Link>
             <ButtonGroup variant="text">
-              <Link href="/main">
-                <Button
-                  variant="outlined"
-                  className="border-white whitespace-nowrap"
-                >
-                  <p className="text-3xl normal-case">短信发送</p>
-                </Button>
-              </Link>{" "}
-              <Link href="/content">
-                <Button
-                  variant="outlined"
-                  className="border-white whitespace-nowrap"
-                >
-                  <p className="text-3xl normal-case">短信内容管理</p>
-                </Button>{" "}
-              </Link>
-              <Link href="/sms">
-                <Button
-                  variant="outlined"
-                  className="border-white whitespace-nowrap"
-                >
-                  <p className="text-3xl normal-case">短信日志</p>
-                </Button>{" "}
-              </Link>{" "}
-              <Link href="/payment">
-                <Button
-                  variant="outlined"
-                  className="border-white whitespace-nowrap"
-                >
-                  <p className="text-3xl normal-case">充值日志</p>
-                </Button>{" "}
-              </Link>
+              <Button
+                variant="outlined"
+                className="border-white whitespace-nowrap"
+                onClick={() => router.push("main")}
+              >
+                <p className="text-3xl normal-case">短信发送</p>
+              </Button>
+              <Button
+                variant="outlined"
+                className="border-white whitespace-nowrap"
+                onClick={() => router.push("content")}
+              >
+                <p className="text-3xl normal-case">短信内容管理</p>
+              </Button>{" "}
+              <Button
+                variant="outlined"
+                className="border-white whitespace-nowrap"
+                onClick={() => router.push("sms")}
+              >
+                <p className="text-3xl normal-case">短信日志</p>
+              </Button>{" "}
+              <Button
+                variant="outlined"
+                className="border-white whitespace-nowrap"
+                onClick={() => router.push("payment")}
+              >
+                <p className="text-3xl normal-case">充值日志</p>
+              </Button>{" "}
             </ButtonGroup>
             <div className="flex flex-col gap-2 justify-center items-center">
               <p className="">短信数量: ${user.usdt}</p>
