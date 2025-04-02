@@ -3,16 +3,36 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/authSlice";
+import { useEffect, useState } from "react";
+import { getUser } from "@/app/api/payment";
 
 const Header = () => {
-  const { user } = useSelector((state) => state.auth);
+  const [user, setUser] = useState({});
   const { isAuth } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
+
   const handleLogout = () => {
     dispatch(logout());
     router.push("/login");
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const searchResult = await getUser();
+      if (searchResult.status === 401) {
+        dispatch(logout());
+        router.push("/login");
+        return;
+      }
+      if (searchResult.status === 200) {
+        setUser(searchResult.data);
+        dispatch(updateUser(searchResult.data));
+        return;
+      }
+      showMessage(searchResult);
+    };
+    fetchData();
+  }, []);
   return (
     <div>
       {isAuth ? (

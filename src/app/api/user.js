@@ -8,7 +8,6 @@ export const signin = async (username, password) => {
     });
     return response.data;
   } catch (error) {
-    console.log("error:", error.response.data);
     return error.response.data;
   }
 };

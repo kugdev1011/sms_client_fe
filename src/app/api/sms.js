@@ -15,10 +15,8 @@ export const sendsms = async (phoneList, smsContent) => {
 export const getAllSms = async () => {
   try {
     const response = await axiosApi.get("/sms/allsms");
-    console.log("response:", response.data);
     return response.data;
   } catch (error) {
-    console.log("error:", error.response.data);
     return error.response.data;
   }
 };
