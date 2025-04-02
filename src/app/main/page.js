@@ -3,12 +3,12 @@
 import { Button, Card, Typography } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import CustomAlert from "../components/customAlert";
-import { validationSendSMS } from "../signup/helper";
+import { validationSendSMS } from "./helper";
 import { sendsms } from "../api/sms";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
-export default function NoviceCommunity() {
+export default function SendingSMS() {
   const [phoneList, setPhoneList] = useState("");
   const [smsContent, setSmsContent] = useState("");
   const [alertMessage, setAlertMessage] = useState("");

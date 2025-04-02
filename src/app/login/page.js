@@ -9,8 +9,8 @@ import { signin } from "../api/user";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/authSlice";
 
-export default function Home() {
-  const [email, setEmail] = useState("");
+export default function Login() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -22,12 +22,12 @@ export default function Home() {
   };
 
   const handleSignin = async () => {
-    let checkValid = validationSignIn(email, password);
+    let checkValid = validationSignIn(username, password);
     if (!checkValid.result) {
       showMessage(checkValid.message);
       return;
     }
-    let result = await signin(email, password);
+    let result = await signin(username, password);
     showMessage(result.message);
     if (result.success) {
       let token = result.token;
@@ -60,17 +60,17 @@ export default function Home() {
             <div>
               <div className="flex items-self-center justify-self-center">
                 <Typography className="font-medium items-self-center text-4xl">
-                  登陆(管理面板)
+                  登陆
                 </Typography>
               </div>
               <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
                   <Input
                     size="lg"
-                    label="电子邮件"
+                    label="用户名"
                     color="white"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
 
                   <Input

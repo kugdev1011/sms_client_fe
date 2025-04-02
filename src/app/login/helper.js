@@ -1,5 +1,5 @@
-export const validationSignIn = (email, password) => {
-  if (email == "" || password == "") {
+export const validationSignIn = (username, password) => {
+  if (username == "" || password == "") {
     return {
       result: false,
       message: "Please input all information.",

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
-export default function PaymentManagement() {
+export default function SMSManagement() {
   const router = useRouter();
   const [alertMessage, setAlertMessage] = useState("");
 

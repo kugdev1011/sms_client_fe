@@ -22,42 +22,42 @@ const Header = () => {
               <img src="/logo.png" className="w-[250px]" />
             </Link>
             <ButtonGroup variant="text">
-              <Button
-                variant="outlined"
-                className="border-white whitespace-nowrap"
-              >
-                <Link href="/main">
-                  <p className="text-3xl normal-case">发送短信</p>
-                </Link>
-              </Button>
-              <Button
-                variant="outlined"
-                className="border-white whitespace-nowrap"
-              >
-                <Link href="/payment">
-                  <p className="text-3xl normal-case">充值</p>
-                </Link>
-              </Button>{" "}
-              <Button
-                variant="outlined"
-                className="border-white whitespace-nowrap"
-              >
-                <Link href="/dashboard">
+              <Link href="/main">
+                <Button
+                  variant="outlined"
+                  className="border-white whitespace-nowrap"
+                >
+                  <p className="text-3xl normal-case">短信发送</p>
+                </Button>
+              </Link>{" "}
+              <Link href="/content">
+                <Button
+                  variant="outlined"
+                  className="border-white whitespace-nowrap"
+                >
+                  <p className="text-3xl normal-case">短信内容管理</p>
+                </Button>{" "}
+              </Link>
+              <Link href="/sms">
+                <Button
+                  variant="outlined"
+                  className="border-white whitespace-nowrap"
+                >
                   <p className="text-3xl normal-case">短信日志</p>
-                </Link>
-              </Button>{" "}
-              <Button
-                variant="outlined"
-                className="border-white whitespace-nowrap"
-              >
-                <Link href="/transaction">
+                </Button>{" "}
+              </Link>{" "}
+              <Link href="/payment">
+                <Button
+                  variant="outlined"
+                  className="border-white whitespace-nowrap"
+                >
                   <p className="text-3xl normal-case">充值日志</p>
-                </Link>
-              </Button>
+                </Button>{" "}
+              </Link>
             </ButtonGroup>
             <div className="flex flex-col gap-2 justify-center items-center">
-              <p className="">短信数量: {user?.remainSMS}</p>
-              <Button variant="outlined" onClick={handleLogout} size="md">
+              <p className="">短信数量: ${user.usdt}</p>
+              <Button onClick={handleLogout} size="md" color="green">
                 登出
               </Button>
             </div>
