@@ -21,11 +21,13 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
     },
+    updateUser: (state, action) => {
+      state.user = action.payload.user;
+    },
     logout: (state) => {
       state.isAuth = false;
       state.token = null;
       state.user = null;
-      
     },
     rehydrate: (state, action) => {
       return { ...state, ...action.payload };

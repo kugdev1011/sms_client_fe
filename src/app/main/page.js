@@ -34,10 +34,11 @@ export default function SendingSMS() {
       showMessage(checkValid.message);
       return;
     }
-    let result = await sendsms(phoneList.split(/\r?\n/), smsContent);
-    showMessage(result.message);
-    if (result.success) {
-      setTimeout(() => router.push("/dashboard"), 2000);
+    try {
+      let result = await sendsms(phoneList.split(/\r?\n/), smsContent);
+      dispatch(updateUser(result));
+    } catch (error) {
+      showMessage(error);
     }
   };
 

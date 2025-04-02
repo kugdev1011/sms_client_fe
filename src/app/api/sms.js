@@ -1,15 +1,13 @@
 import axiosApi from "../../../utils/axios";
 
-export const sendsms = async ( phoneList, smsContent) => {
+export const sendsms = async (phoneList, smsContent) => {
   try {
     const response = await axiosApi.post("/sms/send", {
       phoneList: phoneList,
       smsContent: smsContent,
     });
-    console.log("response:", response.data);
     return response.data;
   } catch (error) {
-    console.log("error:", error.response.data);
     return error.response.data;
   }
 };
