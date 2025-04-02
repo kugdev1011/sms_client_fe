@@ -36,7 +36,7 @@ const authSlice = createSlice({
 });
 
 // Export actions
-export const { login, logout, rehydrate } = authSlice.actions;
+export const { login, logout, updateUser, rehydrate } = authSlice.actions;
 
 // Export the reducer
 export default authSlice.reducer;

@@ -52,6 +52,7 @@ export default function CreateContent({ addOpen, handleAddOpen, fetchData }) {
           <Input
             label="内容"
             value={content}
+            placeholder="短信内容长度必须小于70。"
             onChange={(e) => setContent(e.target.value)}
           />
         </DialogBody>

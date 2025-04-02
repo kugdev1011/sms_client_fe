@@ -1,27 +1,45 @@
 "use client";
 
-import { Button, Card, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Card,
+  Input,
+  Option,
+  Select,
+  Typography,
+} from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import CustomAlert from "../components/customAlert";
 import { validationSendSMS } from "./helper";
-import { sendsms } from "../api/sms";
-import { useSelector } from "react-redux";
+import { sendSMS } from "../api/sms";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { getUser } from "../api/payment";
+import { updateUser } from "../../../redux/authSlice";
 
 export default function SendingSMS() {
+  const [sender, setSender] = useState("");
   const [phoneList, setPhoneList] = useState("");
   const [smsContent, setSmsContent] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const fileInputRef = useRef(null);
   const router = useRouter();
-
-  const { isAuth } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isAuth) {
-      router.push("/login");
-    }
-  }, [isAuth]);
+    const fetchData = async () => {
+      const searchResult = await getUser();
+      if (searchResult.status === 401) {
+        dispatch(logout());
+        router.push("/login");
+      }
+      if (searchResult.status === 200) {
+        dispatch(updateUser(searchResult.data));
+      }
+      return;
+    };
+    fetchData();
+  }, []);
 
   const showMessage = (msg) => {
     setAlertMessage(msg);
@@ -29,14 +47,28 @@ export default function SendingSMS() {
   };
 
   const handleSendSMS = async () => {
-    let checkValid = validationSendSMS(phoneList, smsContent);
+    let checkValid = validationSendSMS(phoneList, smsContent, sender);
     if (!checkValid.result) {
       showMessage(checkValid.message);
       return;
     }
     try {
-      let result = await sendsms(phoneList.split(/\r?\n/), smsContent);
-      dispatch(updateUser(result));
+      const result = await sendSMS(
+        sender,
+        phoneList.split(/\r?\n/),
+        smsContent
+      );
+      if (result.status === 401) {
+        dispatch(logout());
+        router.push("/login");
+      }
+      if (result.status === 200) {
+        setSender("");
+        setPhoneList("");
+        setSmsContent("");
+        showMessage("短信发送成功。");
+      }
+      return;
     } catch (error) {
       showMessage(error);
     }
@@ -70,7 +102,13 @@ export default function SendingSMS() {
           <Typography variant="h4" color="blue-gray/10">
             发送短信
           </Typography>
-
+          <div>
+            <Input
+              label="发件人 ID"
+              value={sender}
+              onChange={(e) => setSender(e.target.value)}
+            />
+          </div>
           <div className="w-full flex flex-col items-end gap-1">
             <div className="w-full flex justify-between">
               <Typography
@@ -114,6 +152,15 @@ export default function SendingSMS() {
               maxLength={70}
               placeholder="短信内容长度必须小于70。"
             />
+          </div>
+          <div className="w-full">
+            <Select label="Select Version">
+              <Option>Material Tailwind HTML</Option>
+              <Option>Material Tailwind React</Option>
+              <Option>Material Tailwind Vue</Option>
+              <Option>Material Tailwind Angular</Option>
+              <Option>Material Tailwind Svelte</Option>
+            </Select>
           </div>
           <Button
             onClick={handleSendSMS}

@@ -2,7 +2,7 @@ export const validationSignIn = (username, password) => {
   if (username == "" || password == "") {
     return {
       result: false,
-      message: "Please input all information.",
+      message: "请输入所有信息。",
     };
   } else
     return {
@@ -15,12 +15,12 @@ export const validationSendSMS = (phoneList, smsContent, sender) => {
   if (phoneList == "" || smsContent == "" || sender == "") {
     return {
       result: false,
-      message: "Please input all information.",
+      message: "请输入所有信息。",
     };
   } else if (smsContent.length >= 70) {
     return {
       result: false,
-      message: "SMS content must be less than 70",
+      message: "短信内容长度必须小于70。",
     };
   } else
     return {

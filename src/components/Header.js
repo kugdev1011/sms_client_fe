@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Card } from "@material-tailwind/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/authSlice";
+import { logout, updateUser } from "../../redux/authSlice";
 import { useEffect, useState } from "react";
 import { getUser } from "@/app/api/payment";
 
@@ -20,8 +20,7 @@ const Header = () => {
     const fetchData = async () => {
       const searchResult = await getUser();
       if (searchResult.status === 401) {
-        dispatch(logout());
-        router.push("/login");
+        handleLogout();
         return;
       }
       if (searchResult.status === 200) {
@@ -29,7 +28,6 @@ const Header = () => {
         dispatch(updateUser(searchResult.data));
         return;
       }
-      showMessage(searchResult);
     };
     fetchData();
   }, []);
@@ -55,7 +53,7 @@ const Header = () => {
                 onClick={() => router.push("content")}
               >
                 <p className="text-3xl normal-case">短信内容管理</p>
-              </Button>{" "}
+              </Button>
               <Button
                 variant="outlined"
                 className="border-white whitespace-nowrap"
@@ -73,6 +71,7 @@ const Header = () => {
             </ButtonGroup>
             <div className="flex flex-col gap-2 justify-center items-center">
               <p className="">短信数量: ${user.usdt}</p>
+              <p className="">短信价格: ${user.price}</p>
               <Button onClick={handleLogout} size="md" color="green">
                 登出
               </Button>
