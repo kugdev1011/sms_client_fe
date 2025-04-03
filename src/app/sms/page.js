@@ -50,17 +50,17 @@ export default function SMSManagement() {
     fetchData();
   }, []);
   const TABLE_HEAD = [
-    "原有电话号码数量",
-    "成功电话号码计数",
+    "发送号码数量",
+    "成功号码数量",
     "内容",
     "发件人 ID",
-    "已使用 USDT 金额",
+    "费用",
     "时间",
   ];
   return (
     <div className="p-10 w-[80%] justify-center flex flex-col gap-4">
       <CustomAlert message={alertMessage} />
-      <p className="font-medium">总充值金额: ${totolAmount}</p>
+      <p className="font-medium">总发送费用: ${totolAmount}</p>
       <table className="w-full table-auto text-left">
         <thead>
           <tr>
@@ -161,10 +161,10 @@ export default function SMSManagement() {
         </tbody>
       </table>
       <Dialog open={open} handler={handleOpen}>
-        <DialogHeader>电话号码列表</DialogHeader>
+        <DialogHeader>发送情况</DialogHeader>
         <DialogBody className="flex flex-row w-full gap-2">
           <div className="w-full gap-2 flex flex-col">
-            <p>输入电话号码列表({phonelist.length})</p>{" "}
+            <p>已发送列表({phonelist.length})</p>{" "}
             <textarea
               value={s_phonelist.join("\n")}
               readOnly
@@ -172,7 +172,7 @@ export default function SMSManagement() {
             />
           </div>
           <div className="w-full gap-2 flex flex-col">
-            <p>输入电话号码列表({s_phonelist.length})</p>{" "}
+            <p>成功列表({s_phonelist.length})</p>{" "}
             <textarea
               value={s_phonelist.join("\n")}
               readOnly

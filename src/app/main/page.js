@@ -145,7 +145,7 @@ export default function SendingSMS() {
           </div>
           <div className="w-full">
             <Select
-              label="选择内容"
+              label="选择模板"
               value={smsContent}
               onChange={(val) => setSmsContent(val)}
               className="bg-white"

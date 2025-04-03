@@ -70,8 +70,8 @@ const Header = () => {
               </Button>{" "}
             </ButtonGroup>
             <div className="flex flex-col gap-2 justify-center items-center">
-              <p className="">短信数量: ${user.usdt}</p>
-              <p className="">短信价格: ${user.price}</p>
+              <p className="">余额: ${user.usdt}</p>
+              <p className="">短信价格: {user.price}$/条</p>
               <Button onClick={handleLogout} size="md" color="green">
                 登出
               </Button>
