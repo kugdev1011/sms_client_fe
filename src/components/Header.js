@@ -25,7 +25,8 @@ const Header = () => {
       }
       if (searchResult.status === 200) {
         setUser(searchResult.data);
-        dispatch(updateUser(searchResult.data));
+        const user = searchResult.data;
+        dispatch(updateUser({ user }));
         return;
       }
     };

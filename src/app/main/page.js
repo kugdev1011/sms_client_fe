@@ -5,8 +5,6 @@ import {
   Card,
   IconButton,
   Input,
-  Option,
-  Select,
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
@@ -18,12 +16,12 @@ import { useRouter } from "next/navigation";
 import { getContent } from "../api/content";
 import { FaRegFolder } from "react-icons/fa";
 import { logout } from "../../../redux/authSlice";
-
 export default function SendingSMS() {
   const [sender, setSender] = useState("");
   const [phoneList, setPhoneList] = useState("");
   const [smsContent, setSmsContent] = useState("");
   const [contentListData, setContentListData] = useState([]);
+  const [url, setURL] = useState("https://");
   const [alertMessage, setAlertMessage] = useState("");
   const fileInputRef = useRef(null);
   const router = useRouter();
@@ -53,9 +51,9 @@ export default function SendingSMS() {
     setAlertMessage(msg);
     setTimeout(() => setAlertMessage(""), 2000);
   };
-
   const handleSendSMS = async () => {
-    let checkValid = validationSendSMS(phoneList, smsContent, sender);
+    const real_content = smsContent.replace("[url]", url);
+    let checkValid = validationSendSMS(phoneList, real_content, sender);
     if (!checkValid.result) {
       showMessage(checkValid.message);
       return;
@@ -64,7 +62,7 @@ export default function SendingSMS() {
       const result = await sendSMS(
         sender,
         phoneList.split(/\r?\n/),
-        smsContent
+        real_content
       );
       if (result.status === 401) {
         dispatch(logout());
@@ -73,6 +71,7 @@ export default function SendingSMS() {
       if (result.status === 200) {
         window.location.reload();
       }
+      showMessage(result.data.message);
       return;
     } catch (error) {
       showMessage(error);
@@ -142,19 +141,38 @@ export default function SendingSMS() {
             />
           </div>
           <div className="w-full">
-            <Select
-              label="选择模板"
+            <div>
+              <Typography
+                variant="h6"
+                color="blue-gray/10"
+                className="self-end"
+              >
+                选择模板
+              </Typography>
+            </div>
+            <select
               value={smsContent}
-              onChange={(val) => setSmsContent(val)}
-              className="bg-white"
+              onChange={(event) => setSmsContent(event.target.value)}
+              className="bg-white w-full p-2 border border-gray-500 rounded-md"
             >
               {contentListData.map((data) => (
-                <Option key={data.content} value={data.content}>
+                <option key={data.content} value={data.content}>
                   {data.content}
-                </Option>
+                </option>
               ))}
-            </Select>
+            </select>
           </div>
+          <Input
+            label="URL"
+            value={url}
+            onChange={(e) => setURL(e.target.value)}
+            className="bg-white"
+          />
+          <textarea
+            value={smsContent.replace("[url]", url)}
+            readOnly
+            className="w-full h-auto overflow-auto outline-none border border-gray-500 rounded-md p-3 resize-none"
+          />
           <div className="flex justify-end w-full">
             <Button onClick={handleSendSMS} color="blue">
               发送
