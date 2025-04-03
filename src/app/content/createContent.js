@@ -73,7 +73,7 @@ export default function CreateContent({ addOpen, handleAddOpen, fetchData }) {
             className="flex flex-row items-center gap-2"
           >
             {isLoading && <Spinner className="h-4" />}
-            <span>是</span>
+            <span>提交</span>
           </Button>
         </DialogFooter>
       </Dialog>
