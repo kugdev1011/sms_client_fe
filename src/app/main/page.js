@@ -71,9 +71,7 @@ export default function SendingSMS() {
         router.push("/login");
       }
       if (result.status === 200) {
-        setSender("");
-        setPhoneList("");
-        showMessage("短信发送成功。");
+        window.location.reload();
       }
       return;
     } catch (error) {

@@ -33,7 +33,7 @@ export default function Login() {
       let token = result.token;
       let user = result.user;
       dispatch(login({ token, user }));
-      setTimeout(() => router.push("/main"), 2000);
+      window.location.reload();
     }
   };
   const { isAuth } = useSelector((state) => state.auth);
