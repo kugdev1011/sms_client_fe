@@ -7,6 +7,7 @@ import {
   IconButton,
   Input,
   Spinner,
+  Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { newUser } from "../api/user";
@@ -52,9 +53,18 @@ export default function CreateContent({ addOpen, handleAddOpen, fetchData }) {
           <Input
             label="内容"
             value={content}
-            placeholder="短信内容长度必须小于70。"
             onChange={(e) => setContent(e.target.value)}
           />
+          <Typography color="blue-gray/10" className="self-start font-medium">
+            模板的长度不能超过70，链接用[url]表示
+            <br />
+            例：如果你想发送“您的帳號涉及違規行為，請登陆 http://top-tele.com
+            進行解除，否則將在4小時內註銷您的帳號！”,
+            <br />
+            得写成 “您的帳號涉及違規行為，請登陆 [url]
+            進行解除，否則將在4小時內註銷您的帳號！”这样子的。
+            然后发送的时候编辑链接就行
+          </Typography>
         </DialogBody>
         <DialogFooter>
           <Button
