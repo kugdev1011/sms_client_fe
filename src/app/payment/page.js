@@ -37,7 +37,7 @@ export default function PaymentManagement() {
   }, []);
   const TABLE_HEAD = ["充值金额", "时间"];
   return (
-    <div className="p-10 w-[80%] justify-center flex flex-col gap-4">
+    <div className="p-10 w-[80%] justify-center flex flex-col gap-4 h-full">
       <CustomAlert message={alertMessage} />
       <p className="font-medium">总充值金额: ${totolAmount}</p>
       <table className="w-full table-auto text-left">
@@ -80,7 +80,14 @@ export default function PaymentManagement() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {data.t_time.slice(0, 10)}
+                    {data.t_time.split("T")[0]}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {data.t_time.split("T")[1].slice(0, 5)}
                   </Typography>
                 </td>
               </tr>

@@ -3,6 +3,7 @@
 import {
   Button,
   Card,
+  IconButton,
   Input,
   Option,
   Select,
@@ -14,13 +15,15 @@ import { validationSendSMS } from "./helper";
 import { sendSMS } from "../api/sms";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { getUser } from "../api/payment";
-import { updateUser } from "../../../redux/authSlice";
+import { getContent } from "../api/content";
+import { FaRegFolder } from "react-icons/fa";
+import { logout } from "../../../redux/authSlice";
 
 export default function SendingSMS() {
   const [sender, setSender] = useState("");
   const [phoneList, setPhoneList] = useState("");
   const [smsContent, setSmsContent] = useState("");
+  const [contentListData, setContentListData] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
   const fileInputRef = useRef(null);
   const router = useRouter();
@@ -28,15 +31,20 @@ export default function SendingSMS() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const searchResult = await getUser();
-      if (searchResult.status === 401) {
+      const response = await getContent();
+      if (response.status === 401) {
         dispatch(logout());
         router.push("/login");
+        return;
       }
-      if (searchResult.status === 200) {
-        dispatch(updateUser(searchResult.data));
+      if (response.status === 200) {
+        setContentListData(
+          response.data.data.filter((data) => data.state == 1)
+        );
+        setSmsContent(response.data.data[0].content);
+        return;
       }
-      return;
+      showMessage(response.data);
     };
     fetchData();
   }, []);
@@ -65,7 +73,6 @@ export default function SendingSMS() {
       if (result.status === 200) {
         setSender("");
         setPhoneList("");
-        setSmsContent("");
         showMessage("短信发送成功。");
       }
       return;
@@ -107,6 +114,7 @@ export default function SendingSMS() {
               label="发件人 ID"
               value={sender}
               onChange={(e) => setSender(e.target.value)}
+              className="bg-white"
             />
           </div>
           <div className="w-full flex flex-col items-end gap-1">
@@ -125,50 +133,35 @@ export default function SendingSMS() {
                 className="hidden"
                 onChange={handleFileChange}
               />
-              <Button onClick={handleLoadFile} className="p-2 normal-case">
-                从文件加载
-              </Button>
+              <IconButton onClick={handleLoadFile} color="white">
+                <FaRegFolder />
+              </IconButton>
             </div>
             <textarea
               value={phoneList}
               onChange={(e) => setPhoneList(e.target.value)}
-              className="w-full h-48 overflow-auto outline-none rounded-md p-3 resize-none bg-gray-800"
-            />
-          </div>
-          <div className="w-full flex flex-col items-end gap-1">
-            <div className="w-full flex justify-between">
-              <Typography
-                variant="h6"
-                color="blue-gray/10"
-                className="self-start"
-              >
-                短信内容
-              </Typography>
-            </div>
-            <textarea
-              value={smsContent}
-              onChange={(e) => setSmsContent(e.target.value)}
-              className="w-full h-36 overflow-auto outline-none rounded-md resize-none p-3 bg-gray-800"
-              maxLength={70}
-              placeholder="短信内容长度必须小于70。"
+              className="w-full h-48 overflow-auto outline-none border border-gray-500 rounded-md p-3 resize-none"
             />
           </div>
           <div className="w-full">
-            <Select label="Select Version">
-              <Option>Material Tailwind HTML</Option>
-              <Option>Material Tailwind React</Option>
-              <Option>Material Tailwind Vue</Option>
-              <Option>Material Tailwind Angular</Option>
-              <Option>Material Tailwind Svelte</Option>
+            <Select
+              label="选择内容"
+              value={smsContent}
+              onChange={(val) => setSmsContent(val)}
+              className="bg-white"
+            >
+              {contentListData.map((data) => (
+                <Option key={data.content} value={data.content}>
+                  {data.content}
+                </Option>
+              ))}
             </Select>
           </div>
-          <Button
-            onClick={handleSendSMS}
-            className="mt-6 normal-case"
-            fullWidth
-          >
-            发送
-          </Button>
+          <div className="flex justify-end w-full">
+            <Button onClick={handleSendSMS} color="blue">
+              发送
+            </Button>
+          </div>
         </Card>
       </div>
     </div>

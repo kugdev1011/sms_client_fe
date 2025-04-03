@@ -33,13 +33,15 @@ export default function RootLayout({ children }) {
       </head>
       <body className="bg-gray-200 w-screen">
         <ReduxProvider>
-          <ScrollProvider>
-            <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full">
+            <div className="h-full">
               <Header />
-              <div className="flex w-full justify-center">{children}</div>
-              <ScrollToTopButton />
             </div>
-          </ScrollProvider>
+            <div className="flex w-full justify-center h-full overflow-y-auto">
+              {children}
+            </div>
+            <ScrollToTopButton />
+          </div>
         </ReduxProvider>
       </body>
     </html>

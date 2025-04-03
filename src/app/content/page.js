@@ -80,9 +80,12 @@ export default function ContentManagement() {
           {contentData.map((data, index) => {
             const isLast = index === contentData.length - 1;
             const classes = isLast ? "p-2" : "p-2 border-b border-blue-gray-50";
-
+            let tdclass;
+            if (data.state == 0) tdclass = "hover:bg-gray-500";
+            if (data.state == 1) tdclass = "bg-green-200 hover:bg-gray-500";
+            if (data.state == 2) tdclass = "bg-red-200 hover:bg-gray-500";
             return (
-              <tr key={index} className="hover:bg-gray-500">
+              <tr key={index} className={tdclass}>
                 <td className={classes}>
                   <Typography
                     variant="small"
