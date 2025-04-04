@@ -10,9 +10,12 @@ import {
 } from "@material-tailwind/react";
 import { updateUser } from "@/app/api/user";
 import CustomAlert from "@/app/components/customAlert";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { IoMdRefresh } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { logout } from "../../redux/authSlice";
 
 export default function UpdateUser({ updateOpen, handleUpdateOpen }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +24,8 @@ export default function UpdateUser({ updateOpen, handleUpdateOpen }) {
     username: "",
     password: "",
   });
-
+  const dispatch = useDispatch();
+  const router = useRouter();
   const showMessage = (msg) => {
     setAlertMessage(msg);
     setTimeout(() => setAlertMessage(""), 2000);
@@ -34,7 +38,10 @@ export default function UpdateUser({ updateOpen, handleUpdateOpen }) {
       [name]: value,
     }));
   };
-
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/login");
+  };
   const handleUpdateUser = async () => {
     if (!formData.username || !formData.password) {
       showMessage("正确输入所有信息。");
@@ -46,21 +53,24 @@ export default function UpdateUser({ updateOpen, handleUpdateOpen }) {
       handleLogout();
       return;
     }
-    if (searchResult.status === 200) {
+    if (result.status === 200) {
+      showMessage("用户信息更新成功。将退出。请重新登录。");
+      await sleep(2000);
       setIsLoading(false);
       handleUpdateOpen();
       setFormData({
         username: "",
         password: "",
       });
-      showMessage("用户信息更新成功。");
-      return;
+      handleLogout();
     }
     showMessage(
       result?.data?.message || "更新用户失败，请稍后重试或联系管理员。"
     );
     setIsLoading(false);
   };
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   function generateRandomLetters(length) {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let result = "";
