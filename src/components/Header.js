@@ -51,13 +51,6 @@ const Header = () => {
               <Button
                 variant="outlined"
                 className="border-white whitespace-nowrap"
-                onClick={() => router.push("content")}
-              >
-                <p className="text-3xl normal-case">短信内容管理</p>
-              </Button>
-              <Button
-                variant="outlined"
-                className="border-white whitespace-nowrap"
                 onClick={() => router.push("sms")}
               >
                 <p className="text-3xl normal-case">短信日志</p>

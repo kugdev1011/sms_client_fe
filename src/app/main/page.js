@@ -13,15 +13,14 @@ import { validationSendSMS } from "./helper";
 import { sendSMS } from "../api/sms";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { getContent } from "../api/content";
 import { FaRegFolder } from "react-icons/fa";
 import { logout } from "../../../redux/authSlice";
+import { getUser } from "../api/payment";
 export default function SendingSMS() {
   const [sender, setSender] = useState("");
   const [phoneList, setPhoneList] = useState("");
   const [smsContent, setSmsContent] = useState("");
   const [contentListData, setContentListData] = useState([]);
-  const [url, setURL] = useState("https://");
   const [alertMessage, setAlertMessage] = useState("");
   const fileInputRef = useRef(null);
   const router = useRouter();
@@ -29,17 +28,13 @@ export default function SendingSMS() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getContent();
+      const response = await getUser();
       if (response.status === 401) {
         dispatch(logout());
         router.push("/login");
         return;
       }
       if (response.status === 200) {
-        setContentListData(
-          response.data.data.filter((data) => data.state == 1)
-        );
-        setSmsContent(response.data.data[0].content);
         return;
       }
       showMessage(response.data);
@@ -52,8 +47,7 @@ export default function SendingSMS() {
     setTimeout(() => setAlertMessage(""), 2000);
   };
   const handleSendSMS = async () => {
-    const real_content = smsContent.replace("[url]", url);
-    let checkValid = validationSendSMS(phoneList, real_content, sender);
+    let checkValid = validationSendSMS(phoneList, smsContent, sender);
     if (!checkValid.result) {
       showMessage(checkValid.message);
       return;
@@ -62,7 +56,7 @@ export default function SendingSMS() {
       const result = await sendSMS(
         sender,
         phoneList.split(/\r?\n/),
-        real_content
+        smsContent
       );
       if (result.status === 401) {
         dispatch(logout());
@@ -150,27 +144,11 @@ export default function SendingSMS() {
                 选择模板
               </Typography>
             </div>
-            <select
-              value={smsContent}
-              onChange={(event) => setSmsContent(event.target.value)}
-              className="bg-white w-full p-2 border border-gray-500 rounded-md"
-            >
-              {contentListData.map((data) => (
-                <option key={data.content} value={data.content}>
-                  {data.content}
-                </option>
-              ))}
-            </select>
           </div>
-          <Input
-            label="URL"
-            value={url}
-            onChange={(e) => setURL(e.target.value)}
-            className="bg-white"
-          />
           <textarea
-            value={smsContent.replace("[url]", url)}
-            readOnly
+            value={smsContent}
+            onChange={(e) => setSmsContent(e.target.value)}
+            placeholder="内容长度不能超过70。"
             className="w-full h-auto overflow-auto outline-none border border-gray-500 rounded-md p-3 resize-none"
           />
           <div className="flex justify-end w-full">
