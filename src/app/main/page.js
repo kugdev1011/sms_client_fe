@@ -149,6 +149,7 @@ export default function SendingSMS() {
             value={smsContent}
             onChange={(e) => setSmsContent(e.target.value)}
             placeholder="内容长度不能超过70。"
+            maxLength={70}
             className="w-full h-auto overflow-auto outline-none border border-gray-500 rounded-md p-3 resize-none"
           />
           <div className="flex justify-end w-full">
