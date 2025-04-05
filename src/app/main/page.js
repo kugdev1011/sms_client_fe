@@ -52,6 +52,10 @@ export default function SendingSMS() {
       showMessage(checkValid.message);
       return;
     }
+    if (phoneList.split(/\r?\n/).length > 10000) {
+      showMessage("电话号码列表超过10000行，请分批发送。");
+      return;
+    }
     try {
       const result = await sendSMS(
         sender,
@@ -131,6 +135,7 @@ export default function SendingSMS() {
             <textarea
               value={phoneList}
               onChange={(e) => setPhoneList(e.target.value)}
+              placeholder="电话号码列表超过10000行。"
               className="w-full h-48 overflow-auto outline-none border border-gray-500 rounded-md p-3 resize-none"
             />
           </div>
